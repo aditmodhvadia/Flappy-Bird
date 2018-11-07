@@ -2,9 +2,13 @@ package com.aditmodhvadia.flappybird;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
 
@@ -14,6 +18,10 @@ public class FlappyBird extends ApplicationAdapter {
     Texture[] birds;
     Texture topTube;
     Texture bottomTube;
+//    ShapeRenderer shapeRenderer;
+    Circle birdCirle;
+    Rectangle[] topTubeRect, bottomTubeRect;
+
     int flapState = 0;
     float birdY = 0;
     float velocity = 0;
@@ -33,6 +41,8 @@ public class FlappyBird extends ApplicationAdapter {
     @Override
     public void create() {
         batch = new SpriteBatch();
+//        shapeRenderer = new ShapeRenderer();
+        birdCirle = new Circle();
         background = new Texture("bg.png");
         topTube = new Texture("toptube.png");
         bottomTube = new Texture("bottomtube.png");
@@ -42,12 +52,17 @@ public class FlappyBird extends ApplicationAdapter {
         birdY = Gdx.graphics.getHeight() / 2 - birds[flapState].getHeight() / 2;
         maxTubeOffset = Gdx.graphics.getHeight() / 2 - gap / 2 - 100;
         ran = new Random();
+        topTubeRect = new Rectangle[noOfTubes];
+        bottomTubeRect = new Rectangle[noOfTubes];
         distBetweenTubes = Gdx.graphics.getWidth() / 1.5f;
 
         for (int i = 0; i < noOfTubes; i++) {
             tubeOffset[i] = (ran.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - gap - 200);
 
-            tubeX[i] = Gdx.graphics.getWidth() / 2 - topTube.getWidth() / 2 + i * distBetweenTubes;
+            tubeX[i] = Gdx.graphics.getWidth() / 2 - topTube.getWidth() / 2 +Gdx.graphics.getWidth() + i * distBetweenTubes;
+
+            topTubeRect[i] = new Rectangle();
+            bottomTubeRect[i] = new Rectangle();
         }
     }
 
@@ -69,6 +84,8 @@ public class FlappyBird extends ApplicationAdapter {
             for (int i = 0; i < noOfTubes; i++) {
 
                 if (tubeX[i] < -topTube.getWidth()) {
+
+                    tubeOffset[i] = (ran.nextFloat() - 0.5f) * (Gdx.graphics.getHeight() - gap - 200);
                     tubeX[i] += noOfTubes * distBetweenTubes;
                 } else {
                     tubeX[i] = tubeX[i] - tubeVelocity;
@@ -78,6 +95,8 @@ public class FlappyBird extends ApplicationAdapter {
                 batch.draw(topTube, tubeX[i], Gdx.graphics.getHeight() / 2 + gap / 2 + tubeOffset[i]);
                 batch.draw(bottomTube, tubeX[i], Gdx.graphics.getHeight() / 2 - gap / 2 - bottomTube.getHeight() + tubeOffset[i]);
 
+                topTubeRect[i] = new Rectangle(tubeX[i], Gdx.graphics.getHeight() / 2 + gap / 2 + tubeOffset[i], topTube.getWidth(), topTube.getHeight());
+                bottomTubeRect[i] = new Rectangle(tubeX[i], Gdx.graphics.getHeight() / 2 - gap / 2 - bottomTube.getHeight() + tubeOffset[i], bottomTube.getWidth(), bottomTube.getHeight());
             }
 
             if (birdY > 0 || velocity < 0) {
@@ -99,6 +118,23 @@ public class FlappyBird extends ApplicationAdapter {
 
         batch.draw(birds[flapState], Gdx.graphics.getWidth() / 2 - birds[flapState].getWidth() / 2, birdY);
         batch.end();
+
+        birdCirle.set(Gdx.graphics.getWidth()/2, birdY + birds[flapState].getWidth()/2, birds[flapState].getWidth()/2 -10);
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        shapeRenderer.setColor(Color.RED);
+//        shapeRenderer.circle(birdCirle.x, birdCirle.y, birdCirle.radius);
+
+        for(int i = 0; i < noOfTubes; i++){
+//            shapeRenderer.rect(tubeX[i], Gdx.graphics.getHeight() / 2 + gap / 2 + tubeOffset[i], topTube.getWidth(), topTube.getHeight());
+//            shapeRenderer.rect(tubeX[i], Gdx.graphics.getHeight() / 2 - gap / 2 - bottomTube.getHeight() + tubeOffset[i], bottomTube.getWidth(), bottomTube.getHeight());
+
+            if(Intersector.overlaps(birdCirle, topTubeRect[i]) || Intersector.overlaps(birdCirle, bottomTubeRect[i])){
+                Gdx.app.log("Collision", "Yes");
+            }
+
+        }
+
+//        shapeRenderer.end();
     }
 
     @Override
