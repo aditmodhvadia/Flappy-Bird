@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
@@ -20,7 +21,7 @@ public class FlappyBird extends ApplicationAdapter {
     Texture[] birds;
     Texture topTube;
     Texture bottomTube;
-    //    ShapeRenderer shapeRenderer;
+//    ShapeRenderer shapeRenderer;
     Circle birdCirle;
     Rectangle[] topTubeRect, bottomTubeRect;
     BitmapFont font;
@@ -32,7 +33,7 @@ public class FlappyBird extends ApplicationAdapter {
     float birdY = 0;
     float velocity = 0;
     float gravity = 1.5f;
-    float gap = 400;
+    float gap = 450;
     float maxTubeOffset;
     Random ran;
     float tubeVelocity = 4;
@@ -143,6 +144,7 @@ public class FlappyBird extends ApplicationAdapter {
                 score = 0;
                 scoringTube = 0;
                 velocity = 0;
+                Gdx.input.vibrate(200);
 
             }
         }
@@ -171,7 +173,6 @@ public class FlappyBird extends ApplicationAdapter {
             if (Intersector.overlaps(birdCirle, topTubeRect[i]) || Intersector.overlaps(birdCirle, bottomTubeRect[i])) {
                 Gdx.app.log("Collision", "Yes");
                 gameState = 2;
-
 
             }
 
