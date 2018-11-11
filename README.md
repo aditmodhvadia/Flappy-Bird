@@ -7,7 +7,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Download libgdx setup application from [BadLogicGames](https://libgdx.badlogicgames.com/download.html) if you want to setup a new prject, otherwise just clone the repo
+Download libgdx setup application from [BadLogicGames](https://libgdx.badlogicgames.com/download.html) if you want to setup a new project, otherwise just clone the repo
 
 ### Installing
 
@@ -31,7 +31,7 @@ git clone https://github.com/aditmodhvadia/Flappy-Bird.git
 
 ## Contributing
 
-Will update the requirements and code of condict soon.
+Will update the requirements and code of conduct soon.
 
 ## Versioning
 
