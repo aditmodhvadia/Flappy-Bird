@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.aditmodhvadia.flappybird.R;
 import com.aditmodhvadia.flappybird.utils.AppUtils;
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements LoginMvpView, View.OnClickListener {
@@ -65,6 +66,7 @@ public class LoginActivity extends AppCompatActivity implements LoginMvpView, Vi
                 }
                 break;
             case R.id.parentLayout:
+//                Crashlytics.getInstance().crash();
                 AppUtils.hideKeyboard(LoginActivity.this);
         }
     }
