@@ -6,6 +6,6 @@ public interface LoginMvpView {
 
     void loginSuccess(FirebaseUser currUser);
 
-    void loginError(String errorMessage);
+    void loginError(Exception e);
 
 }

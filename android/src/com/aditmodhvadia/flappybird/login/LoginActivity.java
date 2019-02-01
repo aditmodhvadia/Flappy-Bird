@@ -1,5 +1,6 @@
 package com.aditmodhvadia.flappybird.login;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -10,6 +11,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.aditmodhvadia.flappybird.R;
+import com.aditmodhvadia.flappybird.signup.SignUpActivity;
 import com.aditmodhvadia.flappybird.utils.AppUtils;
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,8 +45,8 @@ public class LoginActivity extends AppCompatActivity implements LoginMvpView, Vi
     }
 
     @Override
-    public void loginError(String errorMessage) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    public void loginError(Exception e) {
+        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -56,11 +58,12 @@ public class LoginActivity extends AppCompatActivity implements LoginMvpView, Vi
                 AppUtils.hideKeyboard(LoginActivity.this);
                 if(!AppUtils.isNetworkConnected(this)){
                     Toast.makeText(this, "No Internet", Toast.LENGTH_SHORT).show();
+                    break;
                 }
                 if(!AppUtils.isEmailValid(edtEmail.getText().toString())){
                     Toast.makeText(this, "Please enter valid email", Toast.LENGTH_SHORT).show();
                 } else if(!AppUtils.isPasswordValid(edtPassword.getText().toString())){
-                    Toast.makeText(this, "Please enter valid password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Please enter valid password, more than 6 characters", Toast.LENGTH_SHORT).show();
                 } else {
                     presenter.performLogin(edtEmail.getText().toString(), edtPassword.getText().toString());
                 }
@@ -68,6 +71,8 @@ public class LoginActivity extends AppCompatActivity implements LoginMvpView, Vi
             case R.id.parentLayout:
 //                Crashlytics.getInstance().crash();
                 AppUtils.hideKeyboard(LoginActivity.this);
+            case R.id.link_signup:
+                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
         }
     }
 }

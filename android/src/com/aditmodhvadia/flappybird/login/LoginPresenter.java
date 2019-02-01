@@ -27,7 +27,7 @@ public class LoginPresenter implements LoginMvpPresenter {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                loginView.loginError(e.getMessage());
+                loginView.loginError(e);
             }
         });
     }
